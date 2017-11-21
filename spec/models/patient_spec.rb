@@ -65,11 +65,9 @@ RSpec.describe Patient, type: :model do
 
     it 'should create activity log after patient updates' do
       patient
-      expect(ActivityLog.count).to eq(1)
       expect{
         patient.update(first_name: 'mark')
       }.to(change(ActivityLog, :count).by(1))
-      expect(ActivityLog.count).to eq(2)
       expect(ActivityLog.last.model_id).to eq(patient.id)
       expect(ActivityLog.last.model_type).to eq("Patient")
       expect(ActivityLog.last.changes_text).to eq("Patient Updated {first_name from 'blake' to 'mark'}")
@@ -81,11 +79,9 @@ RSpec.describe Patient, type: :model do
 
     it 'should be deleted the record' do
       patient = create(:patient, first_name: 'blake')
-      expect(Patient.count).to eq(1)
       expect{
         patient.destroy
       }.to(change(Patient, :count).by(-1))
-      expect(Patient.count).to eq(0)
     end
   end
 
@@ -99,11 +95,9 @@ RSpec.describe Patient, type: :model do
 
     it 'should create activity log after patient deleted' do
       patient
-      expect(ActivityLog.count).to eq(1)
       expect{
         patient.destroy
       }.to(change(ActivityLog, :count).by(1))
-      expect(ActivityLog.count).to eq(2)
       expect(ActivityLog.last.model_id).to eq(patient.id)
       expect(ActivityLog.last.model_type).to eq("Patient")
       expect(ActivityLog.last.changes_text).to eq("Patient Deleted")

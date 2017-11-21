@@ -42,14 +42,12 @@ module TrackActivityLog
   end
 
   def action_changes_text(action)
-    puts "self.previous_changes"
-    puts self.previous_changes
     case action
     when :create
-      attr_changes = self.changes.map { |k, v| "#{k}: '#{v.second}'" }.to_sentence
+      attr_changes = self.saved_changes.map { |k, v| "#{k}: '#{v.second}'" }.to_sentence
       "#{performed_action(action)} {#{attr_changes}}"
     when :update
-      attr_changes = self.changes.map { |k, v| "#{k} from '#{v.first}' to '#{v.second}'" }.to_sentence
+      attr_changes = self.saved_changes.map { |k, v| "#{k} from '#{v.first}' to '#{v.second}'" }.to_sentence
       "#{performed_action(action)} {#{attr_changes}}"
     when :destroy
       performed_action(action)
